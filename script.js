@@ -1,25 +1,34 @@
+//-------MODULES--------
 
-//modules (game board, display Controller)
-
-
-//game board object
-//store a game board inside of an array inside of a game board object
+//GAME BOARD MODULE
+    //store a game board inside of an array inside of a game board object
+    
 const gameBoard = (() => {
-    // let grid = Array(3).fill(null).map(() => Array());
-    //let divs = document.createElement('div');
-    // console.log(grid);
+
+    const gameBoardGrid = document.getElementById("gameBoard");
+
     const grid =Array.from(Array(3),() => new Array(3));
+
     for(i=0;i<grid.length;i++){
         for(j=0; j<grid.length;j++){
-            grid[i][j] = "X";
+            let div = document.createElement('div');
+            div.classList.add('box');
+            gameBoardGrid.appendChild(div); 
         }
     }
     console.info(grid);
 
 })();
 
-//factories (player);
-//players are going to be stored in objects
+//DISPLAY CONTROLLER MODULE
+
+const displayController = (() => {
+    console.log('setup');
+})();
+
+//---------FACTORIES--------
+
+//PLAYER FACTORY
 const Player = (name, symbol)=>{
     name;
     symbol;
@@ -33,6 +42,7 @@ const Player = (name, symbol)=>{
 
 const playerOne = Player('one', 'X');
 const playerTwo = Player('two','O');
+
 
 //probably going to want an object to control the flow of the game
     //main goal is to have as little as global code as possible
