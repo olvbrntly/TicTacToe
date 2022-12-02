@@ -3,27 +3,35 @@
 //GAME BOARD MODULE
     //store a game board inside of an array inside of a game board object
     
-const gameBoard = (() => {
-
+const GameBoard = (() => { 
+    const R = 3
+    const C = 3;
+    const val = "X";
+    const gameArray = Array(R).fill().map(() => Array(C).fill(val));
     const gameBoardGrid = document.getElementById("gameBoard");
 
-    const grid =Array.from(Array(3),() => new Array(3));
-
-    for(i=0;i<grid.length;i++){
-        for(j=0; j<grid.length;j++){
-            let div = document.createElement('div');
-            div.classList.add('box');
-            gameBoardGrid.appendChild(div); 
+    function _displayArray(){
+        for(i = 0; i < gameArray.length; i++){
+            for(j = 0; j < gameArray.length; j++){
+                const div = document.createElement('div');
+                div.classList.add('box');
+                gameBoardGrid.appendChild(div); 
+            }
         }
     }
-    console.info(grid);
+
+    _displayArray();
 
 })();
 
 //DISPLAY CONTROLLER MODULE
 
-const displayController = (() => {
-    console.log('setup');
+const DisplayController = (() => {
+    console.log('displayController setup');
+})();
+
+const GameFlow = (() => {
+    console.log('gameflow setup');
 })();
 
 //---------FACTORIES--------
@@ -34,9 +42,11 @@ const Player = (name, symbol)=>{
     symbol;
     getName = () => console.log(`Player's name is ${name}`);
     getSymbol = () => console.log(`Player's symbol is ${symbol}`);
+    setName = (newName) => name = newName; 
     return {
         getName,
         getSymbol,
+        setName,
     }
 }
 
