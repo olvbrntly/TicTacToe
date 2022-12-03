@@ -24,35 +24,17 @@ const playerTwo = Player('two','O');
     //store a game board inside of an array inside of a game board object
     
 const GameBoard = (() => { 
-    const R = 3
-    const C = 3;
-    const val = " ";
-    const gameArray = Array(R).fill().map(() => Array(C).fill(val));
-    const gameBoardGrid = document.getElementById("gameBoard");
-
-    //puts the array on the DOM
-    function _displayArray(){
-        for(i = 0; i < gameArray.length; i++){
-            for(j = 0; j < gameArray.length; j++){
-                const div = document.createElement('div');
-                div.classList.add('box');
-                gameBoardGrid.appendChild(div); 
-            }
-        }
-    }
-    _displayArray();
-    console.log(gameArray);
+   
 
 })();
 
 // GAMEPLAY MODULE
 
 const GamePlay =(() => {
-    const girdBoxes = document.querySelectorAll(".box");
+    const gridBoxes = document.querySelectorAll(".box");
 
     const title = document.getElementById("title");
 
-    title.addEventListener('click', hi);
 
     function hi(){
         console.log('worked');
@@ -97,3 +79,30 @@ const GameFlow = (() => {
 //add a display element that congratulates the winning player
 
 //Optional --- create an AI so player can play against a computer
+
+
+//------------------------------------------------------------------------------
+
+//MISUNDERSTOOD - gameboard does not have to be dynamically created
+//going to code it into the HTML
+//BUT i did learn about using map and fill so not a total loss
+
+ // const R = 3
+    // const C = 3;
+    // const val = " ";
+    // const gameArray = Array(R).fill().map(() => Array(C).fill(val));
+    // const gameBoardGrid = document.getElementById("gameBoard");
+
+    // //puts the array on the DOM
+    // function _displayArray(){
+    //     for(i = 0; i < gameArray.length; i++){
+    //         for(j = 0; j < gameArray.length; j++){
+    //             const div = document.createElement('div');
+    //             div.classList.add('box');
+    //             gameBoardGrid.appendChild(div);
+    //         } 
+    //     }
+    // }
+
+    // _displayArray();
+    // console.log(gameArray);
