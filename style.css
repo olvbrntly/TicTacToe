@@ -1,14 +1,20 @@
 body{
     background-color: black;
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 #title{
     color:white;
     font-size: 50px;
+    grid-column: 1/6;
+    text-align: center;
 }
 
 
 #gameBoard{
+    grid-column: 1/6;
+    place-self:center;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
     width:400px;  
