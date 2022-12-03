@@ -21,35 +21,28 @@ const playerTwo = Player('two','O');
 //-------MODULES--------
 
 //GAME BOARD MODULE
-    //store a game board inside of an array inside of a game board object
-    
-const GameBoard = (() => { 
+const GameBoard = (function() { 
+   //store a game board inside of an array inside of a game board object
    const board = new Array(9);
-
+    //connects the array to the html div based on matching ID and index
     function createArray(){
         for(let i = 0; i < board.length; i++){
             let div = document.getElementById(`${i}`);
             board[i] = div;
         }
     };
+
     createArray();
 
-   console.log(board);
+    console.log(board);
+
 })();
 
 // GAMEPLAY MODULE
 
 const GamePlay =(() => {
-    const gridBoxes = document.querySelectorAll(".box");
-
-    const title = document.getElementById("title");
-
-
-    function hi(){
-        console.log('worked');
-    }
-
-})
+    console.log("GamePlay setup");
+})();
 
 
 //DISPLAY CONTROLLER MODULE
