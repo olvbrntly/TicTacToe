@@ -24,6 +24,16 @@ const playerTwo = Player('two','O');
 const GameBoard = (function() { 
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
+
+   const winCombos = [[board[0], board[1], board[2]], //horizontal
+                      [board[3], board[4], board[5]], //horizontal
+                      [board[6], board[7], board[8]], //horizontal
+                      [board[0], board[1], board[2]], //vertical
+                      [board[3], board[4], board[5]], //vertical
+                      [board[6], board[7], board[8]], //vertical
+                      [board[0], board[4], board[8]], //diagonal
+                      [board[2], board[4], board[6]], //diagonal
+                    ]
     //connects the array to the html div based on matching ID and index
     function createArray(){
         for(let i = 0; i < board.length; i++){
@@ -34,29 +44,66 @@ const GameBoard = (function() {
 
     createArray();
 
+    // function checkForWin(){
+    //     for(let i = 0; i <winCombos.length, i++){
+    //         for(let j = 0; j < 3; j++){
+    //             if 
+    //         }
+    //     }
+    // };
+
+    function checkForDraw(){
+
+    };
+
+    function reset(){
+
+    }
+
+   //check for win, check for draw ability to reset the boardetc.
+
     console.log(board);
 
 })();
-
-// GAMEPLAY MODULE
-
-const GamePlay =(() => {
-    console.log("GamePlay setup");
-})();
-
 
 //DISPLAY CONTROLLER MODULE
 
 const DisplayController = (() => {
     console.log('displayController setup');
+
+    //keeps the array of gameboard pieces and the Dom updates
+    //wire in event listeners, tell gameplay what got clicked, tellto update bc gameboard had a succesfuly play
 })();
 
-const GameFlow = (() => {
-    console.log('gameflow setup');
-})();
+// GAMEPLAY MODULE
+const GamePlay = ((state, view, player) => {
+    console.log('gameflow play');
+    //game logic uses player data to update gameboard
+    //checks for win conditions
+})(GameBoard, DisplayController, Player);
 
 
 
+//basically, there are three outside modules. these cannot communicate with each other on their own
+//when they are passed into the gameplay module then that module can in fact communicate them
+//otherwise they do all theyre sepearte thing and allow for no gloabl code
+
+
+
+//notify mye if someone clicks a div and where they clicked
+//then hey can you play the current player there
+//does the current player have a win
+
+//player(instance od player factory)
+//gameboard(module purely state data)
+//displaycontolrrer(module, purely view)
+
+
+
+
+//game state: the data of the board, its ongoing state changes
+//game view: the Display Contoller(controls how the DOm looks)
+//game logic(the thing htat binds the state the view and the players)
 
 //probably going to want an object to control the flow of the game
     //main goal is to have as little as global code as possible
