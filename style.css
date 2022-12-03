@@ -1,3 +1,13 @@
+body{
+    background-color: black;
+}
+
+#title{
+    color:white;
+    font-size: 50px;
+}
+
+
 #gameBoard{
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -6,7 +16,7 @@
 
 /* ------------ Tic Tac Toe Grid Display-------------*/
 .box{
-    border:2px solid black;
+    border:2px solid rgb(255, 255, 255);
     height:100px;
     box-sizing: border-box;
     display:flex;
