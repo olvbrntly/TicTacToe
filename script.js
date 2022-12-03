@@ -1,39 +1,3 @@
-//-------MODULES--------
-
-//GAME BOARD MODULE
-    //store a game board inside of an array inside of a game board object
-    
-const GameBoard = (() => { 
-    const R = 3
-    const C = 3;
-    const val = "X";
-    const gameArray = Array(R).fill().map(() => Array(C).fill(val));
-    const gameBoardGrid = document.getElementById("gameBoard");
-
-    function _displayArray(){
-        for(i = 0; i < gameArray.length; i++){
-            for(j = 0; j < gameArray.length; j++){
-                const div = document.createElement('div');
-                div.classList.add('box');
-                gameBoardGrid.appendChild(div); 
-            }
-        }
-    }
-
-    _displayArray();
-
-})();
-
-//DISPLAY CONTROLLER MODULE
-
-const DisplayController = (() => {
-    console.log('displayController setup');
-})();
-
-const GameFlow = (() => {
-    console.log('gameflow setup');
-})();
-
 //---------FACTORIES--------
 
 //PLAYER FACTORY
@@ -52,6 +16,62 @@ const Player = (name, symbol)=>{
 
 const playerOne = Player('one', 'X');
 const playerTwo = Player('two','O');
+
+
+//-------MODULES--------
+
+//GAME BOARD MODULE
+    //store a game board inside of an array inside of a game board object
+    
+const GameBoard = (() => { 
+    const R = 3
+    const C = 3;
+    const val = " ";
+    const gameArray = Array(R).fill().map(() => Array(C).fill(val));
+    const gameBoardGrid = document.getElementById("gameBoard");
+
+    //puts the array on the DOM
+    function _displayArray(){
+        for(i = 0; i < gameArray.length; i++){
+            for(j = 0; j < gameArray.length; j++){
+                const div = document.createElement('div');
+                div.classList.add('box');
+                gameBoardGrid.appendChild(div); 
+            }
+        }
+    }
+    _displayArray();
+    console.log(gameArray);
+
+})();
+
+// GAMEPLAY MODULE
+
+const GamePlay =(() => {
+    const girdBoxes = document.querySelectorAll(".box");
+
+    const title = document.getElementById("title");
+
+    title.addEventListener('click', hi);
+
+    function hi(){
+        console.log('worked');
+    }
+
+})
+
+
+//DISPLAY CONTROLLER MODULE
+
+const DisplayController = (() => {
+    console.log('displayController setup');
+})();
+
+const GameFlow = (() => {
+    console.log('gameflow setup');
+})();
+
+
 
 
 //probably going to want an object to control the flow of the game
