@@ -22,9 +22,12 @@ const playerTwo = Player('two','O');
 
 //GAME BOARD MODULE
 const GameBoard = (function() { 
+
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
+   const gridDiv = document.querySelectorAll('.box');
 
+   //all the winning combinations
    const winCombos = [[board[0], board[1], board[2]], //horizontal
                       [board[3], board[4], board[5]], //horizontal
                       [board[6], board[7], board[8]], //horizontal
@@ -34,6 +37,7 @@ const GameBoard = (function() {
                       [board[0], board[4], board[8]], //diagonal
                       [board[2], board[4], board[6]], //diagonal
                     ]
+
     //connects the array to the html div based on matching ID and index
     function createArray(){
         for(let i = 0; i < board.length; i++){
@@ -43,6 +47,19 @@ const GameBoard = (function() {
     };
 
     createArray();
+
+    //for each div
+    //when i click i want the value to change to X
+
+    gridDiv.forEach(function(box){
+        box.addEventListener('click', changeValue);
+    })
+
+    function changeValue(){
+        console.log('clicked');
+        console.log(this.id)
+    }
+
 
     // function checkForWin(){
     //     for(let i = 0; i <winCombos.length, i++){
