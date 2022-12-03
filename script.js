@@ -14,10 +14,6 @@ const Player = (name, symbol)=>{
     }
 }
 
-const playerOne = Player('one', 'X');
-const playerTwo = Player('two','O');
-
-
 //-------MODULES--------
 
 //GAME BOARD MODULE
@@ -28,15 +24,6 @@ const GameBoard = (function() {
     //const gridDiv = document.querySelectorAll('.box');
    const turns = 0; 
    //all the winning combinations
-   const winCombos = [[board[0], board[1], board[2]], //horizontal
-                      [board[3], board[4], board[5]], //horizontal
-                      [board[6], board[7], board[8]], //horizontal
-                      [board[0], board[1], board[2]], //vertical
-                      [board[3], board[4], board[5]], //vertical
-                      [board[6], board[7], board[8]], //vertical
-                      [board[0], board[4], board[8]], //diagonal
-                      [board[2], board[4], board[6]], //diagonal
-                    ]
 
     //connects the array to the html div based on matching ID and index
     function createArray(){
@@ -47,36 +34,8 @@ const GameBoard = (function() {
     };
 
     createArray();
-
-    // gridDiv.forEach(function(box){
-    //     box.addEventListener('click', changeValue);
-    // })
-
-    // function changeValue(){
-    //     this.textContent = "X";
-    //     console.log(this.id)
-    // }
-
-
-    // function checkForWin(){
-    //     for(let i = 0; i <winCombos.length, i++){
-    //         for(let j = 0; j < 3; j++){
-    //             if 
-    //         }
-    //     }
-    // };
-
-    function checkForDraw(){
-
-    };
-
-    function reset(){
-
-    }
-
-   //check for win, check for draw ability to reset the boardetc.
-
-    console.log(board);
+    
+    //check for win, check for draw ability to reset the boardetc.
 
 })();
 
@@ -90,20 +49,24 @@ const DisplayController = (() => {
         box.addEventListener('click', changeValue);
     });
     
-
     function changeValue(){
-        if(turns % 2 == 0){
-            this.textContent = "X";
-            this.setAttribute('data-value','X');
-        }
-        else{
-            this.textContent = "O"
-            this.setAttribute('data-value','O');
-        }
-        turns++
+        //keeps players from choosing a spot already taken
+        //allows turns to change, and symbols to change
+        if(this.textContent == ''){
+            if(turns % 2 == 0){
+                this.textContent = "X";
+                this.setAttribute('data-value', 'X')
+            }
+            else{
+                this.textContent = "O"
+                this.setAttribute('data-value', 'O')
+            
+            }
+            turns++
+        }  
+        
         console.log(turns);
     }
-
 
     //keeps the array of gameboard pieces and the Dom updates
     //wire in event listeners, tell gameplay what got clicked, tellto update bc gameboard had a succesfuly play
@@ -111,12 +74,19 @@ const DisplayController = (() => {
 
 // GAMEPLAY MODULE
 const GamePlay = ((state, view, player) => {
-    console.log('gameflow play');
-    //game logic uses player data to update gameboard
-    //checks for win conditions
+   
 })(GameBoard, DisplayController, Player);
 
 
+    //       winCombos =[[board[0], board[1], board[2]], //horizontal
+    //                   [board[3], board[4], board[5]], //horizontal
+    //                   [board[6], board[7], board[8]], //horizontal
+    //                   [board[0], board[1], board[2]], //vertical
+    //                   [board[3], board[4], board[5]], //vertical
+    //                   [board[6], board[7], board[8]], //vertical
+    //                   [board[0], board[4], board[8]], //diagonal
+    //                   [board[2], board[4], board[6]], //diagonal]
+                
 
 //basically, there are three outside modules. these cannot communicate with each other on their own
 //when they are passed into the gameplay module then that module can in fact communicate them
