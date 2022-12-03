@@ -11,6 +11,11 @@ body{
     text-align: center;
 }
 
+#p1{
+    color:white;
+    margin-left:10rem;
+}
+
 
 #gameBoard{
     grid-column: 1/6;
@@ -29,6 +34,8 @@ body{
     align-items: center;
     justify-content: center;
     font-size:60px;
+    color:white;
+    
 }
 
 .box:nth-child(1),
