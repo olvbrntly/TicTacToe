@@ -24,8 +24,17 @@ const playerTwo = Player('two','O');
     //store a game board inside of an array inside of a game board object
     
 const GameBoard = (() => { 
-   
+   const board = new Array(9);
 
+    function createArray(){
+        for(let i = 0; i < board.length; i++){
+            let div = document.getElementById(`${i}`);
+            board[i] = div;
+        }
+    };
+    createArray();
+
+   console.log(board);
 })();
 
 // GAMEPLAY MODULE
