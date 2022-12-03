@@ -25,8 +25,8 @@ const GameBoard = (function() {
 
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
-   const gridDiv = document.querySelectorAll('.box');
-
+    //const gridDiv = document.querySelectorAll('.box');
+   const turns = 0; 
    //all the winning combinations
    const winCombos = [[board[0], board[1], board[2]], //horizontal
                       [board[3], board[4], board[5]], //horizontal
@@ -48,17 +48,14 @@ const GameBoard = (function() {
 
     createArray();
 
-    //for each div
-    //when i click i want the value to change to X
+    // gridDiv.forEach(function(box){
+    //     box.addEventListener('click', changeValue);
+    // })
 
-    gridDiv.forEach(function(box){
-        box.addEventListener('click', changeValue);
-    })
-
-    function changeValue(){
-        console.log('clicked');
-        console.log(this.id)
-    }
+    // function changeValue(){
+    //     this.textContent = "X";
+    //     console.log(this.id)
+    // }
 
 
     // function checkForWin(){
@@ -86,7 +83,27 @@ const GameBoard = (function() {
 //DISPLAY CONTROLLER MODULE
 
 const DisplayController = (() => {
-    console.log('displayController setup');
+    const gridDiv = document.querySelectorAll('.box');
+    let turns = 0;
+
+    gridDiv.forEach(function(box){
+        box.addEventListener('click', changeValue);
+    });
+    
+
+    function changeValue(){
+        if(turns % 2 == 0){
+            this.textContent = "X";
+            this.setAttribute('data-value','X');
+        }
+        else{
+            this.textContent = "O"
+            this.setAttribute('data-value','O');
+        }
+        turns++
+        console.log(turns);
+    }
+
 
     //keeps the array of gameboard pieces and the Dom updates
     //wire in event listeners, tell gameplay what got clicked, tellto update bc gameboard had a succesfuly play
