@@ -2,11 +2,17 @@
 
 //PLAYER FACTORY
 const Player = (name, symbol)=>{
-    name;
-    symbol;
-    getName = () => console.log(`Player's name is ${name}`);
-    getSymbol = () => console.log(`Player's symbol is ${symbol}`);
-    setName = (newName) => name = newName; 
+    this.name = name;
+    this.symbol = symbol;
+    const setName = (newName) => name = newName;
+
+    const getName = () => {
+        return name;
+    }
+
+    const getSymbol = () =>{
+        return symbol;
+    };
     return {
         getName,
         getSymbol,
@@ -17,25 +23,30 @@ const Player = (name, symbol)=>{
 //-------MODULES--------
 
 //GAME BOARD MODULE
-const GameBoard = (function() { 
+const GameBoard = (function() {
 
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
-    //const gridDiv = document.querySelectorAll('.box');
-   const turns = 0; 
-   //all the winning combinations
 
-    //connects the array to the html div based on matching ID and index
-    function createArray(){
+    let getSign = (index, symbol)=>{
+        board[index] = symbol
+    }
+  
+    let getIndex = (index)=>{
+        return board[index]
+    }
+
+    function resetGame(){
         for(let i = 0; i < board.length; i++){
-            let div = document.getElementById(`${i}`);
-            board[i] = div;
+            board[i] = " ";
         }
-    };
+    }
 
-    createArray();
-    
-    //check for win, check for draw ability to reset the boardetc.
+    return{
+        getSign,
+        getIndex,
+        resetGame
+    }
 
 })();
 
@@ -46,47 +57,78 @@ const DisplayController = (() => {
     let turns = 0;
 
     gridDiv.forEach(function(box){
-        box.addEventListener('click', changeValue);
+        box.addEventListener('click', );
     });
-    
-    function changeValue(){
-        //keeps players from choosing a spot already taken
-        //allows turns to change, and symbols to change
-        if(this.textContent == ''){
-            if(turns % 2 == 0){
-                this.textContent = "X";
-                this.setAttribute('data-value', 'X')
-            }
-            else{
-                this.textContent = "O"
-                this.setAttribute('data-value', 'O')
-            
-            }
-            turns++
-        }  
-        
-        console.log(turns);
-    }
 
-    //keeps the array of gameboard pieces and the Dom updates
-    //wire in event listeners, tell gameplay what got clicked, tellto update bc gameboard had a succesfuly play
+ 
 })();
 
 // GAMEPLAY MODULE
-const GamePlay = ((state, view, player) => {
-   
-})(GameBoard, DisplayController, Player);
+const GamePlay = (() => {
+    let player1 = Player('one', 'x');
+    let player2 = Player('two','O');
+    let rounds = 1;
+    let gameOver = false;
+
+    let playRound = (index) => {
+        GameBoard.setBox(index, whoseTurn);
+
+        if(checkWinner === true){
+            gameOver = true;
+            return;
+        }
+
+        if(rounds > 9){
+            console.log('The game is a tie');
+            return;
+        }
+
+        round++;
+        console.log(`${theCurrentPlayer()}'s turn`)
+    }
+        
+    function theCurrentPlayer(){
+        let currentPlayer;
+        if(rounds % 2 == 1){
+            currentPlayer = player1;
+            return currentPlayer
+        }else{
+            currentPlayer = player2;
+            return currentPlayer;
+        }
+            
+    }
+
+    const CheckWinner= () =>{
+        if( board[0] === symbol && board[1] === symbol && board[2] === symbol || //horizontal
+            board[3] === symbol && board[4] === symbol && board[5] === symbol || //horizontal
+            board[6] === symbol && board[7] === symbol && board[8] === symbol || //horizontal
+            board[0] === symbol && board[1] === symbol && board[2] === symbol || //vertical
+            board[3] === symbol && board[4] === symbol && board[5] === symbol || //vertical
+            board[6] === symbol && board[7] === symbol && board[8] === symbol || //vertical
+            board[0] === symbol && board[4] === symbol && board[8] === symbol || //diagonal
+            board[2] === symbol && board[4] === symbol && board[06] === symbol)   //diagonal
+           {
+            return true
+           }
+           return false
+    }
 
 
-    //       winCombos =[[board[0], board[1], board[2]], //horizontal
-    //                   [board[3], board[4], board[5]], //horizontal
-    //                   [board[6], board[7], board[8]], //horizontal
-    //                   [board[0], board[1], board[2]], //vertical
-    //                   [board[3], board[4], board[5]], //vertical
-    //                   [board[6], board[7], board[8]], //vertical
-    //                   [board[0], board[4], board[8]], //diagonal
-    //                   [board[2], board[4], board[6]], //diagonal]
-                
+    function isGameOver(){
+    return gameOver;
+    }
+
+    return{
+        isGameOver,
+
+   }
+
+})();
+
+
+    //    
+
 
 //basically, there are three outside modules. these cannot communicate with each other on their own
 //when they are passed into the gameplay module then that module can in fact communicate them
@@ -104,6 +146,24 @@ const GamePlay = ((state, view, player) => {
 
 
 
+   //connects the array to the html div based on matching ID and index
+//    function attachIDs(){
+//         for(let i = 0; i < board.length; i++){
+//             let div = document.getElementById(`${i}`);
+//             board[i] = div;
+//         }
+//     };
+
+
+   // if(this.textContent == ''){
+        //     if(turns % 2 == 0){
+        //         this.textContent = "X";
+        //     }
+        //     else{
+        //         this.textContent = "O"
+        //     }
+        //     turns++
+        // }
 
 //game state: the data of the board, its ongoing state changes
 //game view: the Display Contoller(controls how the DOm looks)
@@ -118,9 +178,9 @@ const GamePlay = ((state, view, player) => {
 //set up HTML and write JS function that will render the contents of the game board array to the webpage
 //(for now just manually fill array with x's and o's)
 
-//build the functions that allow players to add marks to a specific spot on the onboard and then tie it to the DOM, letting players click on game board to place their marker 
+//build the functions that allow players to add marks to a specific spot on the onboard and then tie it to the DOM, letting players click on game board to place their marker
 //include logic that keeps players from playing in spots that are already taken
-  
+
     //think carefully when each bit of logic should reside
     //Each little piece of functionality should be able to fit in the game, player, or game board objects
 
@@ -153,7 +213,7 @@ const GamePlay = ((state, view, player) => {
     //             const div = document.createElement('div');
     //             div.classList.add('box');
     //             gameBoardGrid.appendChild(div);
-    //         } 
+    //         }
     //     }
     // }
 
