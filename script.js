@@ -11,6 +11,7 @@ const Player = (name, symbol)=>{
     }
 
     const getSymbol = () =>{
+        console.log(symbol)
         return symbol;
     };
     return {
@@ -28,14 +29,6 @@ const GameBoard = (function() {
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
 
-    let getSign = (index, symbol)=>{
-        board[index] = symbol
-    }
-  
-    let getIndex = (index)=>{
-        return board[index]
-    }
-
     function resetGame(){
         for(let i = 0; i < board.length; i++){
             board[i] = " ";
@@ -43,8 +36,7 @@ const GameBoard = (function() {
     }
 
     return{
-        getSign,
-        getIndex,
+       
         resetGame
     }
 
@@ -57,10 +49,33 @@ const DisplayController = (() => {
     let turns = 0;
 
     gridDiv.forEach(function(box){
-        box.addEventListener('click', );
+        box.addEventListener('click', playersMove);
     });
 
- 
+    function playersMove(){
+       let player = GamePlay.theCurrentPlayer();
+       let sign = player.getSymbol();
+       console.log(`the ${sign}`);
+       gridDiv.textContent = sign
+    }
+
+    //if gameOver(returned from gameplay)
+    //reset the gameBoard
+    //add a point to the winner
+    //display Game Over! ____ is the winner
+
+    function displayWinner(){
+        let gameOverMessage = document.getElementById('winnerMessage')
+        
+        if(GamePlay.gameOver() == true){
+            gameOverMessage.textContent = "GameOver";
+        }else{
+            gameOverMessage.textContent = "Keep Playing";
+        }
+    
+    }
+
+    displayWinner();
 })();
 
 // GAMEPLAY MODULE
@@ -86,17 +101,21 @@ const GamePlay = (() => {
         round++;
         console.log(`${theCurrentPlayer()}'s turn`)
     }
+
         
     function theCurrentPlayer(){
         let currentPlayer;
         if(rounds % 2 == 1){
             currentPlayer = player1;
-            return currentPlayer
         }else{
             currentPlayer = player2;
-            return currentPlayer;
         }
+        return currentPlayer;
             
+    }
+
+    let getRounds = () => {
+        return rounds
     }
 
     const CheckWinner= () =>{
@@ -120,9 +139,11 @@ const GamePlay = (() => {
     }
 
     return{
+        getRounds,
         isGameOver,
+        theCurrentPlayer,
 
-   }
+    }
 
 })();
 
