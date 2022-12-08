@@ -29,6 +29,13 @@ const GameBoard = (function() {
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
 
+    function attachIDs(){
+        for(let i = 0; i < board.length; i++){
+            let div = document.getElementById(`${i}`);
+            board[i] = div;
+        }
+    };
+
     function resetGame(){
         for(let i = 0; i < board.length; i++){
             board[i] = " ";
@@ -42,43 +49,8 @@ const GameBoard = (function() {
 
 })();
 
-//DISPLAY CONTROLLER MODULE
 
-const DisplayController = (() => {
-    const gridDiv = document.querySelectorAll('.box');
-    let turns = 0;
-
-    gridDiv.forEach(function(box){
-        box.addEventListener('click', playersMove);
-    });
-
-    function playersMove(){
-       let player = GamePlay.theCurrentPlayer();
-       let sign = player.getSymbol();
-       console.log(`the ${sign}`);
-       gridDiv.textContent = sign
-    }
-
-    //if gameOver(returned from gameplay)
-    //reset the gameBoard
-    //add a point to the winner
-    //display Game Over! ____ is the winner
-
-    function displayWinner(){
-        let gameOverMessage = document.getElementById('winnerMessage')
-        
-        if(GamePlay.gameOver() == true){
-            gameOverMessage.textContent = "GameOver";
-        }else{
-            gameOverMessage.textContent = "Keep Playing";
-        }
-    
-    }
-
-    displayWinner();
-})();
-
-// GAMEPLAY MODULE
+// GAME PLAY MODULE
 const GamePlay = (() => {
     let player1 = Player('one', 'x');
     let player2 = Player('two','O');
@@ -147,7 +119,41 @@ const GamePlay = (() => {
 
 })();
 
+//DISPLAY CONTROLLER MODULE
 
+const DisplayController = (() => {
+    const gridDiv = document.querySelectorAll('.box');
+    let turns = 0;
+
+    gridDiv.forEach(function(box){
+        box.addEventListener('click', playersMove);
+    });
+
+    function playersMove(){
+       let player = GamePlay.theCurrentPlayer();
+       let sign = player.getSymbol();
+       console.log(`the ${sign}`);
+       gridDiv.textContent = sign
+    }
+
+    //if gameOver(returned from gameplay)
+    //reset the gameBoard
+    //add a point to the winner
+    //display Game Over! ____ is the winner
+
+    function displayWinner(){
+        let gameOverMessage = document.getElementById('winnerMessage')
+        
+        if(GamePlay.isGameOver() == true){
+            gameOverMessage.textContent = "GameOver";
+        }else{
+            gameOverMessage.textContent = "Keep Playing!";
+        }
+    
+    }
+
+    displayWinner();
+})();s
     //    
 
 
