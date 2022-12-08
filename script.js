@@ -36,6 +36,12 @@ const GameBoard = (function() {
         }
     };
 
+    attachIDs();
+
+    function accessBoard(){
+        return board;
+    }
+
     function resetGame(){
         for(let i = 0; i < board.length; i++){
             board[i] = " ";
@@ -43,7 +49,7 @@ const GameBoard = (function() {
     }
 
     return{
-       
+        accessBoard,
         resetGame
     }
 
@@ -55,42 +61,65 @@ const GamePlay = (() => {
     let player1 = Player('one', 'x');
     let player2 = Player('two','O');
     let rounds = 1;
-    let gameOver = false;
+    let gameOver = true;
 
-    let playRound = (index) => {
-        GameBoard.setBox(index, whoseTurn);
+    function playRound(){
 
         if(checkWinner === true){
             gameOver = true;
+            DisplayController.displayWinner();
             return;
         }
 
         if(rounds > 9){
             console.log('The game is a tie');
+            DisplayController.displayWinner();
             return;
         }
+
+//if myTurn is true
+    //playerOne turn
+    //else its player twos turn 
+
+
+    //player one click a box
+    //box displays his symbol
+    //box now holds that symbols value
+    // !myTurn 
 
         round++;
         console.log(`${theCurrentPlayer()}'s turn`)
     }
 
-        
-    function theCurrentPlayer(){
-        let currentPlayer;
-        if(rounds % 2 == 1){
-            currentPlayer = player1;
-        }else{
-            currentPlayer = player2;
-        }
-        return currentPlayer;
-            
+    function recordSpots(){
+        board = GameBoard.accessBoard();
+        console.log(board + 'from recordSpots')
     }
+    recordSpots();
+
+    //if there is a winner
+    //stop game, declare winner
+
+    //if there is not yet a winner
+    //but the amount of rounds is two high, no more spots left
+    //stop game, declare a tie
+
+    //else
+    //(current player function)
+    let currentPlayer = () => {
+        if(rounds % 2 == 1){
+            return player1;
+        }else{
+            return  player2;
+        }
+    }
+    
 
     let getRounds = () => {
         return rounds
     }
 
-    const CheckWinner= () =>{
+    const CheckWinner = () =>{
         if( board[0] === symbol && board[1] === symbol && board[2] === symbol || //horizontal
             board[3] === symbol && board[4] === symbol && board[5] === symbol || //horizontal
             board[6] === symbol && board[7] === symbol && board[8] === symbol || //horizontal
@@ -113,7 +142,7 @@ const GamePlay = (() => {
     return{
         getRounds,
         isGameOver,
-        theCurrentPlayer,
+        currentPlayer,
 
     }
 
@@ -126,17 +155,22 @@ const DisplayController = (() => {
     let turns = 0;
 
     gridDiv.forEach(function(box){
-        box.addEventListener('click', playersMove);
+        box.addEventListener('click', clicked);
     });
 
     function playersMove(){
-       let player = GamePlay.theCurrentPlayer();
+       let player = GamePlay.currentPlayer();
+       console.log(player);
        let sign = player.getSymbol();
        console.log(`the ${sign}`);
-       gridDiv.textContent = sign
+       gridDiv.textContent = `${sign}`;
     }
 
-    //if gameOver(returned from gameplay)
+    function clicked(){
+        gridDiv.textContent ="X";
+    }
+
+    //if gameOver(returned from game play)
     //reset the gameBoard
     //add a point to the winner
     //display Game Over! ____ is the winner
@@ -144,16 +178,18 @@ const DisplayController = (() => {
     function displayWinner(){
         let gameOverMessage = document.getElementById('winnerMessage')
         
-        if(GamePlay.isGameOver() == true){
-            gameOverMessage.textContent = "GameOver";
+        if(GamePlay.isGameOver() === true){
+            gameOverMessage.textContent = "`Game Over!";
         }else{
             gameOverMessage.textContent = "Keep Playing!";
         }
     
     }
 
-    displayWinner();
-})();s
+    return{
+    displayWinner
+    }
+})();
     //    
 
 
