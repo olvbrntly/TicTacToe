@@ -28,16 +28,10 @@ const GameBoard = (function() {
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
 
-    // function attachIDs(){
-    //     for(let i = 0; i < board.length; i++){
-    //         let div = document.getElementById(`${i}`);
-    //         board[i] = div;
-    //     }
-    // };
-
-    // attachIDs();
-
-  
+   for(let i = 0; i < board.length; i++){
+    board[i] = " ";
+   }
+ 
     function resetGame(){
         for(let i = 0; i < board.length; i++){
             board[i] = " ";
@@ -60,9 +54,6 @@ const DisplayController = (() => {
     let turns = 0;
 
     //message box on bottom functions
-    function declareTurn(){
-        gameOverMessage.textContent = `it is ${currentPlayer}'s turn!`
-    }
 
     function declareWinner(){
         gameOverMessage.textContent =`${winner} is the winner!`
@@ -74,8 +65,8 @@ const DisplayController = (() => {
 
     return{
         gridDiv,
+        gameOverMessage,
 
-        declareTurn,
         declareWinner,
         declareTie,
     }
@@ -83,13 +74,13 @@ const DisplayController = (() => {
 
 // GAME PLAY MODULE
 const GamePlay = (() => {
-    let player1 = Player('one', 'X');
-    let player2 = Player('two','O');
+    let player1 = Player('player one', 'X');
+    let player2 = Player('player two','O');
     let currentPlayer = player1;
     let rounds = 0;
-    let gameOver = true;
+    let gameOver = false;
 
-    function playRound(e){
+    function playRound(){
         console.log('round is being played')
 
         // if(checkWinner === true){
@@ -100,29 +91,30 @@ const GamePlay = (() => {
 
         if(rounds > 9){
             console.log('The game is a tie');
-            DisplayController.displayWinner();
+            gameOver = true;
+            DisplayController.declareTie();
             return;
         }
 
         getPlayer();
 
-        if(getPlayer() === player1){
-            this.textContent = "X";
-            GameBoard.board[this.id] =currentPlayer.getSymbol();
-            //console.log(this)
-           
-        }else{
-            this.textContent = "O";
-            GameBoard.board[this.id] =currentPlayer.getSymbol();
+        if(GameBoard.board[this.id] === ' '){
+            if(getPlayer() === player1){
+                this.textContent = "X";
+                GameBoard.board[this.id] =currentPlayer.getSymbol();
+                console.log(this)
+               
+            }else{
+                this.textContent = "O";
+                GameBoard.board[this.id] =currentPlayer.getSymbol();
+            }
+            nextPlayer();
+       
+            DisplayController.gameOverMessage.textContent = `it is ${currentPlayer.getName()}'s turn!`
         }
-
-        console.log(`${currentPlayer.getName()}'s turn`)
-        console.log(rounds);
-        rounds++;
-        nextPlayer()
-        console.log(`${currentPlayer.getName()}'s turn`)
-        console.log(rounds);
+      
     }
+    rounds++
 
    function getPlayer() {
         return currentPlayer;
@@ -134,6 +126,7 @@ const GamePlay = (() => {
         }else{
             currentPlayer = player1;
         }
+        return
     }
 
     
