@@ -47,6 +47,7 @@ const GameBoard = (function() {
             board[i] = " ";
         }
     }
+    console.log(board);
 
     return{
         accessBoard,
@@ -55,22 +56,61 @@ const GameBoard = (function() {
 
 })();
 
+//DISPLAY CONTROLLER MODULE
+
+const DisplayController = (() => {
+    const gridDiv = document.querySelectorAll('.box');
+    let gameOverMessage = document.getElementById('winnerMessage');
+    let turns = 0;
+
+    function playersMove(){
+       let player = GamePlay.currentPlayer();
+       console.log(player);
+       let sign = player.getSymbol();
+       console.log(`the ${sign}`);
+       gridDiv.textContent = `${sign}`;
+    }
+ 
+    
+
+    //message box on bottom functions
+    function declareTurn(){
+        gameOverMessage.textContent = `it is ${currentPlayer}'s turn!`
+    }
+
+    function declareWinner(){
+        gameOverMessage.textContent =`${winner} is the winner!`
+    }
+
+    function declareTie(){
+        gameOverMessage.textContent = "It's a tie!"
+    }
+
+    return{
+        gridDiv,
+
+        declareTurn,
+        declareWinner,
+        declareTie,
+    }
+})();
 
 // GAME PLAY MODULE
 const GamePlay = (() => {
     let player1 = Player('one', 'x');
     let player2 = Player('two','O');
     let currentPlayer = player1;
-    let rounds = 1;
+    let rounds = 0;
     let gameOver = true;
 
     function playRound(){
+        console.log('round is being played')
 
-        if(checkWinner === true){
-            gameOver = true;
-            DisplayController.displayWinner();
-            return;
-        }
+        // if(checkWinner === true){
+        //     gameOver = true;
+        //     DisplayController.displayWinner();
+        //     return;
+        // }
 
         if(rounds > 9){
             console.log('The game is a tie');
@@ -78,42 +118,38 @@ const GamePlay = (() => {
             return;
         }
 
-//if myTurn is true
-    //playerOne turn
-    //else its player twos turn 
+        getPlayer();
 
+        if(getPlayer() === player1){
+            this.textContent = "X";
+            
+        }else{
+            this.textContent = "O"
+            
+        }
 
-    //player one click a box
-    //box displays his symbol
-    //box now holds that symbols value
-    // !myTurn 
-
-        round++;
-        console.log(`${theCurrentPlayer()}'s turn`)
+        console.log(`${currentPlayer.getName()}'s turn`)
+        console.log(rounds);
+        rounds++;
+        nextPlayer()
+        console.log(`${currentPlayer.getName()}'s turn`)
+        console.log(rounds);
     }
 
-    function recordSpots(){
-        board = GameBoard.accessBoard();
-        console.log(board + 'from recordSpots')
+   function getPlayer() {
+        return currentPlayer;
     }
-    recordSpots();
 
-    //if there is a winner
-    //stop game, declare winner
-
-    //if there is not yet a winner
-    //but the amount of rounds is two high, no more spots left
-    //stop game, declare a tie
-
-    //else
-    //(current player function)
     const nextPlayer = () => {
         if(currentPlayer === player1){
-            this.currentPlayer = player2;
+            currentPlayer = player2;
         }else{
-            this.currentPlayer = player1;
+            currentPlayer = player1;
         }
     }
+
+    
+  
     
 
     let getRounds = () => {
@@ -140,60 +176,30 @@ const GamePlay = (() => {
     return gameOver;
     }
 
+    function game(){
+        playRound();
+        clicked();
+    }
+
+    DisplayController.gridDiv.forEach(function(box){
+        box.addEventListener('click', playRound);
+    });
+
     return{
 
         currentPlayer,
 
+        
+        playRound,
         getRounds,
         isGameOver,
         nextPlayer,
 
     }
-
-})();
-
-//DISPLAY CONTROLLER MODULE
-
-const DisplayController = (() => {
-    const gridDiv = document.querySelectorAll('.box');
-    let gameOverMessage = document.getElementById('winnerMessage');
-    let turns = 0;
-
-    gridDiv.forEach(function(box){
-        box.addEventListener('click', clicked);
-    });
-
-    function playersMove(){
-       let player = GamePlay.currentPlayer();
-       console.log(player);
-       let sign = player.getSymbol();
-       console.log(`the ${sign}`);
-       gridDiv.textContent = `${sign}`;
     }
+)();
 
-    function clicked(){
-        gridDiv.textContent ="X";
-    }
 
-    //message box on bottom functions
-    function declareTurn(){
-        gameOverMessage.textContent = `it is ${currentPlayer}'s turn!`
-    }
-
-    function declareWinner(){
-        gameOverMessage.textContent =`${winner} is the winner!`
-    }
-
-    function declareTie(){
-        gameOverMessage.textContent = "It's a tie!"
-    }
-
-    return{
-        declareTurn,
-        declareWinner,
-        declareTie,
-    }
-})();
     //    
 
 
