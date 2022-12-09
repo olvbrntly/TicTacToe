@@ -60,6 +60,7 @@ const GameBoard = (function() {
 const GamePlay = (() => {
     let player1 = Player('one', 'x');
     let player2 = Player('two','O');
+    let currentPlayer = player1;
     let rounds = 1;
     let gameOver = true;
 
@@ -106,11 +107,11 @@ const GamePlay = (() => {
 
     //else
     //(current player function)
-    let currentPlayer = () => {
-        if(rounds % 2 == 1){
-            return player1;
+    const nextPlayer = () => {
+        if(currentPlayer === player1){
+            this.currentPlayer = player2;
         }else{
-            return  player2;
+            this.currentPlayer = player1;
         }
     }
     
@@ -120,7 +121,7 @@ const GamePlay = (() => {
     }
 
     const CheckWinner = () =>{
-        if( board[0] === symbol && board[1] === symbol && board[2] === symbol || //horizontal
+        if( board[0] === symbol && board[1] === symbol && board[2] ===symbol || //      horizontal
             board[3] === symbol && board[4] === symbol && board[5] === symbol || //horizontal
             board[6] === symbol && board[7] === symbol && board[8] === symbol || //horizontal
             board[0] === symbol && board[1] === symbol && board[2] === symbol || //vertical
@@ -140,9 +141,12 @@ const GamePlay = (() => {
     }
 
     return{
+
+        currentPlayer,
+
         getRounds,
         isGameOver,
-        currentPlayer,
+        nextPlayer,
 
     }
 
@@ -152,6 +156,7 @@ const GamePlay = (() => {
 
 const DisplayController = (() => {
     const gridDiv = document.querySelectorAll('.box');
+    let gameOverMessage = document.getElementById('winnerMessage');
     let turns = 0;
 
     gridDiv.forEach(function(box){
@@ -170,24 +175,23 @@ const DisplayController = (() => {
         gridDiv.textContent ="X";
     }
 
-    //if gameOver(returned from game play)
-    //reset the gameBoard
-    //add a point to the winner
-    //display Game Over! ____ is the winner
+    //message box on bottom functions
+    function declareTurn(){
+        gameOverMessage.textContent = `it is ${currentPlayer}'s turn!`
+    }
 
-    function displayWinner(){
-        let gameOverMessage = document.getElementById('winnerMessage')
-        
-        if(GamePlay.isGameOver() === true){
-            gameOverMessage.textContent = "`Game Over!";
-        }else{
-            gameOverMessage.textContent = "Keep Playing!";
-        }
-    
+    function declareWinner(){
+        gameOverMessage.textContent =`${winner} is the winner!`
+    }
+
+    function declareTie(){
+        gameOverMessage.textContent = "It's a tie!"
     }
 
     return{
-    displayWinner
+        declareTurn,
+        declareWinner,
+        declareTie,
     }
 })();
     //    
