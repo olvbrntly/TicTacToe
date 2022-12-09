@@ -11,7 +11,6 @@ const Player = (name, symbol)=>{
     }
 
     const getSymbol = () =>{
-        console.log(symbol)
         return symbol;
     };
     return {
@@ -29,19 +28,16 @@ const GameBoard = (function() {
    //store a game board inside of an array inside of a game board object
    const board = new Array(9);
 
-    function attachIDs(){
-        for(let i = 0; i < board.length; i++){
-            let div = document.getElementById(`${i}`);
-            board[i] = div;
-        }
-    };
+    // function attachIDs(){
+    //     for(let i = 0; i < board.length; i++){
+    //         let div = document.getElementById(`${i}`);
+    //         board[i] = div;
+    //     }
+    // };
 
-    attachIDs();
+    // attachIDs();
 
-    function accessBoard(){
-        return board;
-    }
-
+  
     function resetGame(){
         for(let i = 0; i < board.length; i++){
             board[i] = " ";
@@ -50,7 +46,7 @@ const GameBoard = (function() {
     console.log(board);
 
     return{
-        accessBoard,
+        board,
         resetGame
     }
 
@@ -62,16 +58,6 @@ const DisplayController = (() => {
     const gridDiv = document.querySelectorAll('.box');
     let gameOverMessage = document.getElementById('winnerMessage');
     let turns = 0;
-
-    function playersMove(){
-       let player = GamePlay.currentPlayer();
-       console.log(player);
-       let sign = player.getSymbol();
-       console.log(`the ${sign}`);
-       gridDiv.textContent = `${sign}`;
-    }
- 
-    
 
     //message box on bottom functions
     function declareTurn(){
@@ -97,13 +83,13 @@ const DisplayController = (() => {
 
 // GAME PLAY MODULE
 const GamePlay = (() => {
-    let player1 = Player('one', 'x');
+    let player1 = Player('one', 'X');
     let player2 = Player('two','O');
     let currentPlayer = player1;
     let rounds = 0;
     let gameOver = true;
 
-    function playRound(){
+    function playRound(e){
         console.log('round is being played')
 
         // if(checkWinner === true){
@@ -122,10 +108,12 @@ const GamePlay = (() => {
 
         if(getPlayer() === player1){
             this.textContent = "X";
-            
+            GameBoard.board[this.id] =currentPlayer.getSymbol();
+            //console.log(this)
+           
         }else{
-            this.textContent = "O"
-            
+            this.textContent = "O";
+            GameBoard.board[this.id] =currentPlayer.getSymbol();
         }
 
         console.log(`${currentPlayer.getName()}'s turn`)
@@ -157,18 +145,22 @@ const GamePlay = (() => {
     }
 
     const CheckWinner = () =>{
-        if( board[0] === symbol && board[1] === symbol && board[2] ===symbol || //      horizontal
-            board[3] === symbol && board[4] === symbol && board[5] === symbol || //horizontal
-            board[6] === symbol && board[7] === symbol && board[8] === symbol || //horizontal
-            board[0] === symbol && board[1] === symbol && board[2] === symbol || //vertical
-            board[3] === symbol && board[4] === symbol && board[5] === symbol || //vertical
-            board[6] === symbol && board[7] === symbol && board[8] === symbol || //vertical
-            board[0] === symbol && board[4] === symbol && board[8] === symbol || //diagonal
-            board[2] === symbol && board[4] === symbol && board[06] === symbol)   //diagonal
-           {
-            return true
-           }
-           return false
+        const winningCombos =[
+                                [0,1,2]
+                                [3,4,5]
+                                [6,7,8]
+                                [0,3,6]
+                                [1,4,7]
+                                [2,5,8]
+                                [0,4,8]
+                                [2,4,6]
+                                        ]
+
+        
+    
+
+    
+        
     }
 
 
@@ -176,12 +168,7 @@ const GamePlay = (() => {
     return gameOver;
     }
 
-    function game(){
-        playRound();
-        clicked();
-    }
-
-    DisplayController.gridDiv.forEach(function(box){
+    DisplayController.gridDiv.forEach((box, index)=>{
         box.addEventListener('click', playRound);
     });
 
