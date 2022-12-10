@@ -81,15 +81,14 @@ const GamePlay = (() => {
     let gameOver = false;
 
     function playRound(){
-        console.log('round is being played')
+       
+        if(checkWinner === true){
+            gameOver = true;
+            DisplayController.displayWinner();
+            return;
+        }
 
-        // if(checkWinner === true){
-        //     gameOver = true;
-        //     DisplayController.displayWinner();
-        //     return;
-        // }
-
-        if(rounds > 9){
+        if(rounds == 9 ){
             console.log('The game is a tie');
             gameOver = true;
             DisplayController.declareTie();
@@ -102,8 +101,6 @@ const GamePlay = (() => {
             if(getPlayer() === player1){
                 this.textContent = "X";
                 GameBoard.board[this.id] = currentPlayer.getSymbol();
-                console.log(this)
-               
             }else{
                 this.textContent = "O";
                 GameBoard.board[this.id] = currentPlayer.getSymbol();
@@ -116,6 +113,7 @@ const GamePlay = (() => {
         }
       
     }
+
    function getPlayer() {
         return currentPlayer;
     }
@@ -129,7 +127,8 @@ const GamePlay = (() => {
         return
     }
 
-    const CheckWinner = () =>{
+    let theBoard = GameBoard.board;
+    function checkWinner(theBoard) {
         const winningCombos =[
                                 [0,1,2]
                                 [3,4,5]
@@ -140,6 +139,18 @@ const GamePlay = (() => {
                                 [0,4,8]
                                 [2,4,6]
                                         ]
+
+        let winner;
+        for (let combo of winningCombos) {
+            if(
+                theBoard[combo[0]] == theBoard[combo[1]] &&
+                theBoard[combo[1]] == theBoard[combo[2]] &&
+                theBoard[combo[0]] != ""
+            ){
+                return true;
+            }
+            return false;
+        }
 
     }
 
