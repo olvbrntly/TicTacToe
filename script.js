@@ -56,7 +56,7 @@ const DisplayController = (() => {
     //message box on bottom functions
 
     function declareWinner(){
-        gameOverMessage.textContent =`${winner} is the winner!`
+        gameOverMessage.textContent =` ${GamePlay.getPlayer()} is the winner!`
     }
 
     function declareTie(){
@@ -74,27 +74,16 @@ const DisplayController = (() => {
 
 // GAME PLAY MODULE
 const GamePlay = (() => {
-    let player1 = Player('player one', 'X');
-    let player2 = Player('player two','O');
+    let player1 = Player('Player One', 'X');
+    let player2 = Player('Player Two','O');
     let currentPlayer = player1;
     let rounds = 0;
     let gameOver = false;
-
+    
     function playRound(){
-       
-        if(checkWinner === true){
-            gameOver = true;
-            DisplayController.displayWinner();
-            return;
-        }
-
-        if(rounds == 9 ){
-            console.log('The game is a tie');
-            gameOver = true;
-            DisplayController.declareTie();
-            return;
-        }
-
+        console.log(rounds);
+        rounds++;
+        
         getPlayer();
 
         if(GameBoard.board[this.id] === ' '){
@@ -106,11 +95,31 @@ const GamePlay = (() => {
                 GameBoard.board[this.id] = currentPlayer.getSymbol();
             }
             nextPlayer();
-       
+    
             DisplayController.gameOverMessage.textContent = `It is ${currentPlayer.getName()}'s turn!`
-            rounds++
+
             console.log(rounds);
         }
+
+        if(rounds === 9 ){
+            console.log('The game is a tie');
+            gameOver = true;
+            DisplayController.declareTie;
+            return;
+        }
+
+        if(checkWinner(player1.getSymbol())){
+            gameOver = true;
+            DisplayController.gameOverMessage.textContent = ` ${nextPlayer().getName()} Wins!`
+            return;
+        }
+
+        if(checkWinner(player2.getSymbol())){
+            gameOver = true;
+            DisplayController.gameOverMessage.textContent = ` ${nextPlayer().getName()} Wins!`
+            return;
+        }
+        
       
     }
 
@@ -124,35 +133,23 @@ const GamePlay = (() => {
         }else{
             currentPlayer = player1;
         }
-        return
+        return currentPlayer;
     }
 
-    let theBoard = GameBoard.board;
-    function checkWinner(theBoard) {
-        const winningCombos =[
-                                [0,1,2]
-                                [3,4,5]
-                                [6,7,8]
-                                [0,3,6]
-                                [1,4,7]
-                                [2,5,8]
-                                [0,4,8]
-                                [2,4,6]
-                                        ]
-
-        let winner;
-        for (let combo of winningCombos) {
-            if(
-                theBoard[combo[0]] == theBoard[combo[1]] &&
-                theBoard[combo[1]] == theBoard[combo[2]] &&
-                theBoard[combo[0]] != ""
-            ){
-                return true;
-            }
-            return false;
-        }
-
+    function checkWinner(player){
+        const horizontal = [0,3,6].map(i=>{return[i,i+1,i+2]});
+        const vertical = [0,1,2].map(i=>{return[i,i+3,i+6]});
+        const diagonal = [[0,4,8],[2,4,6]];
+      
+        var allwins = [].concat(horizontal).concat(vertical).concat(diagonal);
+        
+        let res = allwins.some(indices => { 
+        return GameBoard.board[indices[0]] == player && GameBoard.board[indices[1]] == player && GameBoard.board[indices[2]] == player})
+        return res;
     }
+
+
+    
 
     function isGameOver(){
     return gameOver;
@@ -168,8 +165,10 @@ const GamePlay = (() => {
         playRound,
         isGameOver,
         nextPlayer,
+        getPlayer
      }
     }
+
 )();
 
 
